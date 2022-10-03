@@ -34,10 +34,10 @@ public class CardDatabase
 			e.printStackTrace();
 		}
 
-		cardList = generateCards(records);
+		cardList = populateDatabase(records);
 	}
 
-	private List<Card> generateCards(List<List<String>> records)
+	public List<Card> populateDatabase(List<List<String>> records)
 	{
 		List<Card> cards = new ArrayList<Card>();
 		for (List<String> record : records)

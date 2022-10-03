@@ -1,7 +1,6 @@
-public class Card
+public class Card extends GameObject
 {
-	String name;
-	String rarity;
+
 	String type;
 	String cost;
 	String description;
@@ -9,9 +8,8 @@ public class Card
 
 	public Card(String name, String type, String rarity, String cost, String description, String upgradedDescription)
 	{
-		this.name = name;
+		super(name, rarity);
 		this.type = type;
-		this.rarity = rarity;
 		this.cost = cost;
 		this.description = description;
 		this.upgradedDescription = upgradedDescription;
@@ -19,9 +17,8 @@ public class Card
 
 	public Card(String name, String type, String rarity, String cost, String description)
 	{
-		this.name = name;
+		super(name, rarity);
 		this.type = type;
-		this.rarity = rarity;
 		this.cost = cost;
 		this.description = description;
 		upgradedDescription = "";
@@ -60,15 +57,15 @@ public class Card
 	@Override
 	public String toString()
 	{
-		StringBuilder cardString = new StringBuilder();
-		cardString.append(name + '\n');
-		cardString.append(type + '\n');
-		cardString.append(rarity + '\n');
-		cardString.append(cost + '\n');
-		cardString.append(description + '\n');
+		StringBuilder printString = new StringBuilder();
+		printString.append(name + '\n');
+		printString.append(type + '\n');
+		printString.append(rarity + '\n');
+		printString.append("Cost: " + cost + " energy\n");
+		printString.append(description + '\n');
 		if (!upgradedDescription.equals(""))
-			cardString.append(upgradedDescription + '\n');
+			printString.append("Upgraded: " + upgradedDescription + '\n');
 
-		return cardString.toString();
+		return printString.toString();
 	}
 }

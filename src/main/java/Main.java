@@ -11,7 +11,7 @@ public class Main
 		try
 		{
 			TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-			botsApi.registerBot(new TestTelegramBot(new CardDatabase(DATABASE_FILE_PATH)));
+			botsApi.registerBot(new SlayTheSpireBot(new CardDatabase(DATABASE_FILE_PATH)));
 		}
 		catch (TelegramApiException e)
 		{
