@@ -22,11 +22,11 @@ public class SlayTheSpireBot extends TelegramLongPollingBot
 	public SlayTheSpireBot(CardDatabase dataBase)
 	{
 		super();
-		init();
+		initBotInfo();
 		this.dataBase = dataBase;
 	}
 
-	private void init()
+	private void initBotInfo()
 	{
 		try (InputStream input = new FileInputStream("telegram-bot.properties"))
 		{
