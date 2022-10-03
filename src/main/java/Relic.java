@@ -8,6 +8,11 @@ public class Relic extends GameObject
 		this.description = description;
 	}
 
+	public String getDescription()
+	{
+		return description;
+	}
+
 	public String toString()
 	{
 		StringBuilder printString = new StringBuilder();

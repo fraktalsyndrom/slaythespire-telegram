@@ -15,11 +15,11 @@ import java.util.regex.Pattern;
 
 public class SlayTheSpireBot extends TelegramLongPollingBot
 {
-	private CardDatabase dataBase;
+	private GameObjectDatabase dataBase;
 	private String botUsername;
 	private String botToken;
 
-	public SlayTheSpireBot(CardDatabase dataBase)
+	public SlayTheSpireBot(GameObjectDatabase dataBase)
 	{
 		super();
 		initBotInfo();
@@ -44,7 +44,7 @@ public class SlayTheSpireBot extends TelegramLongPollingBot
 		}
 	}
 
-	public CardDatabase getDataBase()
+	public GameObjectDatabase getDataBase()
 	{
 		return dataBase;
 	}
@@ -68,15 +68,15 @@ public class SlayTheSpireBot extends TelegramLongPollingBot
 		{
 			String messageText = update.getMessage().getText();
 
-			if (messageContainsCardRequest(messageText))
+			if (messageContainsGameObjectRequest(messageText))
 			{
-				List<String> cardNames = getCardNamesFromRequest(messageText);
+				List<String> gameObjectNames = extractGameObjectNamesFrom(messageText);
 				String outgoingMessageText = "";
 
-				for (String requestedCardName : cardNames)
+				for (String requestedGameObjectName : gameObjectNames)
 				{
-					Card requestedCard = dataBase.getCard(requestedCardName);
-					outgoingMessageText += requestedCard.toString() + '\n';
+					GameObject requestedGameObject = dataBase.getGameObject(requestedGameObjectName);
+					outgoingMessageText += requestedGameObject.toString() + '\n';
 				}
 
 				SendMessage outgoingMessage = new SendMessage();
@@ -94,7 +94,7 @@ public class SlayTheSpireBot extends TelegramLongPollingBot
 		}
 	}
 
-	private boolean messageContainsCardRequest(String messageText)
+	private boolean messageContainsGameObjectRequest(String messageText)
 	{
 		//Pattern pattern = Pattern.compile("\\[(.*?)\\]"); // [feed][glacier] OK, [feed] och [glacier] OK, en [feed] FAIL
 		Pattern pattern = Pattern.compile("\\[([^)]+)\\]"); // [feed][glacier] OK, [feed] och [glacier] OK, en [feed] FAIL
@@ -103,7 +103,7 @@ public class SlayTheSpireBot extends TelegramLongPollingBot
 		return matcher.find();
 	}
 
-	private List<String> getCardNamesFromRequest(String messageText)
+	private List<String> extractGameObjectNamesFrom(String messageText)
 	{
 		List<String> cardNames = new ArrayList<>();
 

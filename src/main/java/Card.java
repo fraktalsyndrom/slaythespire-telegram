@@ -24,36 +24,6 @@ public class Card extends GameObject
 		upgradedDescription = "";
 	}
 
-	public String getName()
-	{
-		return name;
-	}
-
-	public String getRarity()
-	{
-		return rarity;
-	}
-
-	public String getType()
-	{
-		return type;
-	}
-
-	public String getCost()
-	{
-		return cost;
-	}
-
-	public String getDescription()
-	{
-		return description;
-	}
-
-	public String getUpgradedDescription()
-	{
-		return upgradedDescription;
-	}
-
 	@Override
 	public String toString()
 	{
