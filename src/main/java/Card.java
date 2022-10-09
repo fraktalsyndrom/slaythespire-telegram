@@ -28,10 +28,7 @@ public class Card extends GameObject
 	public String toString()
 	{
 		StringBuilder printString = new StringBuilder();
-		printString.append(name + '\n');
-		printString.append(type + '\n');
-		printString.append(rarity + '\n');
-		printString.append("Cost: " + cost + " energy\n");
+		printString.append(name + " (" + type + ", " + rarity.toLowerCase() + ", cost " + cost + ")\n");
 		printString.append(description + '\n');
 		if (!upgradedDescription.equals(""))
 			printString.append("Upgraded: " + upgradedDescription + '\n');

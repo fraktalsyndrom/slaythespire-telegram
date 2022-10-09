@@ -16,8 +16,7 @@ public class Relic extends GameObject
 	public String toString()
 	{
 		StringBuilder printString = new StringBuilder();
-		printString.append(name + '\n');
-		printString.append(rarity + '\n');
+		printString.append(name + " (" + rarity + " relic)\n");
 		printString.append(description + '\n');
 
 		return printString.toString();

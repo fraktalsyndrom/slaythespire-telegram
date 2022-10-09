@@ -44,11 +44,6 @@ public class SlayTheSpireBot extends TelegramLongPollingBot
 		}
 	}
 
-	public GameObjectDatabase getDataBase()
-	{
-		return dataBase;
-	}
-
 	@Override
 	public String getBotUsername()
 	{
@@ -70,14 +65,7 @@ public class SlayTheSpireBot extends TelegramLongPollingBot
 
 			if (messageContainsGameObjectRequest(messageText))
 			{
-				List<String> gameObjectNames = extractGameObjectNamesFrom(messageText);
-				String outgoingMessageText = "";
-
-				for (String requestedGameObjectName : gameObjectNames)
-				{
-					GameObject requestedGameObject = dataBase.getGameObject(requestedGameObjectName);
-					outgoingMessageText += requestedGameObject.toString() + '\n';
-				}
+				String outgoingMessageText = createGameObjectResponse(messageText);
 
 				SendMessage outgoingMessage = new SendMessage();
 				outgoingMessage.setChatId(update.getMessage().getChatId().toString());
@@ -92,6 +80,23 @@ public class SlayTheSpireBot extends TelegramLongPollingBot
 				}
 			}
 		}
+	}
+
+	private String createGameObjectResponse(String messageText)
+	{
+		List<String> gameObjectNames = extractGameObjectNamesFrom(messageText);
+		String outgoingMessageText = "";
+
+		for (String requestedGameObjectName : gameObjectNames)
+		{
+			try
+			{
+				GameObject requestedGameObject = dataBase.getGameObject(requestedGameObjectName);
+				outgoingMessageText += requestedGameObject.toString() + '\n';
+			}
+			catch (IllegalArgumentException e) { e.printStackTrace(); }
+		}
+		return outgoingMessageText;
 	}
 
 	private boolean messageContainsGameObjectRequest(String messageText)

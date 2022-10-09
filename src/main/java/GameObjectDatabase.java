@@ -2,25 +2,21 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class GameObjectDatabase
 {
-	private List<Card> cardList;
-	private List<Relic> relicList;
+	private Map<String,GameObject> gameObjectsMap;
 
 	public GameObjectDatabase(String cardsFileName, String relicsFileName)
 	{
-		List<List<String>> cardRows;
-		List<List<String>> relicRows;
+		gameObjectsMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-		cardRows = populateListFromFile(cardsFileName);
-		relicRows = populateListFromFile(relicsFileName);
+		List<List<String>> cardRecords = populateListFromFile(cardsFileName);
+		List<List<String>> relicRecords = populateListFromFile(relicsFileName);;
 
-		cardList = createCardDatabase(cardRows);
-		relicList = createRelicDatabase(relicRows);
+		createCardDatabase(cardRecords);
+		createRelicDatabase(relicRecords);
 	}
 
 	private List<List<String>> populateListFromFile(String cardDatabaseFileName)
@@ -39,21 +35,14 @@ public class GameObjectDatabase
 				records.add(Arrays.asList(values));
 			}
 
-		} catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 
 		return records;
 	}
 
 
-	public List<Card> createCardDatabase(List<List<String>> records)
+	private void createCardDatabase(List<List<String>> records)
 	{
-		List<Card> cards = new ArrayList<>();
 		for (List<String> record : records)
 		{
 			System.out.println(record);
@@ -76,15 +65,13 @@ public class GameObjectDatabase
 			{
 				card = new Card(name, type, rarity, cost, description);
 			}
-			cards.add(card);
-		}
 
-		return cards;
+			gameObjectsMap.put(name, card);
+		}
 	}
 
-	public List<Relic> createRelicDatabase(List<List<String>> records)
+	private void createRelicDatabase(List<List<String>> records)
 	{
-		List<Relic> relics = new ArrayList<>();
 		for (List<String> record : records)
 		{
 			System.out.println(record);
@@ -95,47 +82,15 @@ public class GameObjectDatabase
 
 			Relic relic = new Relic(name, rarity, description);
 
-			relics.add(relic);
+			gameObjectsMap.put(name, relic);
 		}
-
-		return relics;
-	}
-
-	public Card getCard(String cardName)
-	{
-		for (Card card : cardList)
-		{
-			if (card.getName().equalsIgnoreCase(cardName))
-				return card;
-		}
-
-		throw new IllegalArgumentException("Could not find card named " + cardName + " in database");
-	}
-
-	public Relic getRelic(String relicName)
-	{
-		for (Relic relic : relicList)
-		{
-			if (relic.getName().equalsIgnoreCase(relicName))
-				return relic;
-		}
-
-		throw new IllegalArgumentException("Could not find relic named " + relicName + " in database");
 	}
 
 	public GameObject getGameObject(String gameObjectName)
 	{
-		for (GameObject gameObject : cardList)
-		{
-			if (gameObject.getName().equalsIgnoreCase(gameObjectName))
-				return gameObject;
-		}
-
-		for (GameObject gameObject : relicList)
-		{
-			if (gameObject.getName().equalsIgnoreCase(gameObjectName))
-				return gameObject;
-		}
+		GameObject target = gameObjectsMap.get(gameObjectName);
+		if (target != null)
+			return target;
 
 		throw new IllegalArgumentException("Could not find game object named " + gameObjectName + " in database");
 	}
